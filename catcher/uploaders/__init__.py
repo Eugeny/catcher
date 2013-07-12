@@ -1,0 +1,1 @@
+from pastehtml import PasteHTMLUploader
