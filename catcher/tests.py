@@ -19,6 +19,4 @@ class CollectorTest (unittest.TestCase):
         except Exception, e:
             report = catcher.collect(e)
         html = catcher.formatters.HTMLFormatter().format(report)
-        print catcher.uploaders.PasteHTMLUploader().upload(html)
-        raise Exception()
-        open('report.html', 'w').write(html)
+        print catcher.uploaders.AjentiOrgUploader().upload(html)

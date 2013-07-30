@@ -6,10 +6,12 @@ _template = Template("""<!doctype html>
 <html>
     <head>
         <title>Error report</title>
-        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-        <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
+
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css" rel="stylesheet">
+        <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
         <style>
             a {
                 cursor: pointer;
@@ -59,7 +61,7 @@ _template = Template("""<!doctype html>
     %>
 
     <%def name="object(x, depth=0)" buffered="True">
-        % if depth > 6:
+        % if depth > maxdepth:
             <% return "[too deep]" %>
         % endif
         <% objid = id() %>
@@ -116,7 +118,7 @@ _template = Template("""<!doctype html>
 
 
                     <div class="row">
-                        <div class="span10">
+                        <div class="col-lg-10">
 
                             <div class="codebox">
                                 % for index, line in enumerate(frame.code[0]):
@@ -130,18 +132,17 @@ _template = Template("""<!doctype html>
                             </div>
 
                         </div>
-                        <div class="span2">
+                        <div class="col-lg-2">
                             <a class="btn btn-default" data-toggle="collapse" data-target="#${frameid}-locals">
                                 <i class="icon-list-ul"></i> Locals
                             </a>
-
                         </div>
                     </div>
                     <div class="row">
-                        <div class="span1">
+                        <div class="col-lg-1">
                         </div>
                         <div>
-                            <div id="${frameid}-locals" class="collapse in">
+                            <div id="${frameid}-locals" class="collapse">
                                 <h4>Locals</h4>
                                 ${object(frame.locals)}
                             </div>
@@ -156,6 +157,5 @@ _template = Template("""<!doctype html>
 
 
 class HTMLFormatter:
-    def format(self, report):
-        open('template.py', 'w').write(_template.code)
-        return _template.render(report=report, datetime=datetime)
+    def format(self, report, maxdepth=5):
+        return _template.render(maxdepth=maxdepth, report=report, datetime=datetime)

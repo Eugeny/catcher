@@ -16,11 +16,19 @@ def __collect_frame(frame):
     )
 
 
+def backup(exception):
+    exception.traceback_backup = sys.exc_info()[2]
+
+
 def collect(exception):
-    exc_info = sys.exc_info()
     traceback = []
 
-    tb = exc_info[2]
+    if hasattr(exception, 'traceback_backup'):
+        tb = exception.traceback_backup
+    else:
+        exc_info = sys.exc_info()
+        tb = exc_info[2]
+
     while tb:
         frame = tb.tb_frame
         traceback.append(__collect_frame(frame))

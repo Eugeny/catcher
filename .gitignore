@@ -5,7 +5,7 @@
 *.sublime-workspace
 .coverage
 
-debian/python-reconfigure*
+debian/python-catcher*
 dist/*.rpm
 dist/*.deb
 dist/*.gz
@@ -18,4 +18,3 @@ docs/build
 
 nosetests*
 setup.py
-.idea
