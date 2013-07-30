@@ -20,6 +20,11 @@ Quick use::
 
 Example report: http://ajenti.org/catcher/view/10
 
-.. image:: http://habrastorage.org/storage2/4b8/188/5fe/4b81885fe8582d835c557af1d71884b9.png
+Report overview:
 
 .. image:: http://habrastorage.org/storage2/f05/ea4/779/f05ea4779fccf0087fa24a380bd92b45.png
+
+One stack frame with locals:
+
+.. image:: http://habrastorage.org/storage2/4b8/188/5fe/4b81885fe8582d835c557af1d71884b9.png
+
