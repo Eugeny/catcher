@@ -1,3 +1,4 @@
+from __future__ import print_function
 import unittest
 import catcher
 
@@ -19,4 +20,4 @@ class CollectorTest (unittest.TestCase):
         except Exception as e:
             report = catcher.collect(e)
         html = catcher.formatters.HTMLFormatter().format(report)
-        print catcher.uploaders.AjentiOrgUploader().upload(html)
+        print(catcher.uploaders.AjentiOrgUploader().upload(html))
