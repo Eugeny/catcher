@@ -1,3 +1,3 @@
-import formatters
-import uploaders
-from collector import collect, backup
+from . import formatters
+from . import uploaders
+from .collector import collect, backup

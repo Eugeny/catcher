@@ -1,2 +1,2 @@
-from text import TextFormatter
-from html import HTMLFormatter
+from .text import TextFormatter
+from .html import HTMLFormatter

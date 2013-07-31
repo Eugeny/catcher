@@ -69,7 +69,7 @@ _template = Template("""<!doctype html>
             <code>${repr(x) | h}</code>
         % elif type(x) == dict:
             <table class="table">
-                % for key, value in x.iteritems():
+                % for key, value in x.items():
                     <tr>
                         <td><code>${key | h}</code></td>
                         <td><span class="badge">${type(value).__name__ | h}</span></td>

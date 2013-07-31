@@ -16,7 +16,7 @@ class CollectorTest (unittest.TestCase):
     def test_collection(self):
         try:
             CollectorTest.Tester().test()
-        except Exception, e:
+        except Exception as e:
             report = catcher.collect(e)
         html = catcher.formatters.HTMLFormatter().format(report)
         print catcher.uploaders.AjentiOrgUploader().upload(html)

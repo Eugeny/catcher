@@ -1,2 +1,2 @@
-from ajentiorg import AjentiOrgUploader
-from pastehtml import PasteHTMLUploader
+from .ajentiorg import AjentiOrgUploader
+from .pastehtml import PasteHTMLUploader
