@@ -7,7 +7,7 @@ setup(
     name='python-catcher',
     version='__VERSION__',
     install_requires=[
-        'requests'
+        'requests', 'mako',
     ],
     description='Beautiful stack traces for Python',
     author='Eugene Pankov',
