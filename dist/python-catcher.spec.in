@@ -1,4 +1,4 @@
-%define name reconfigure
+%define name python-catcher
 %define version __VERSION__
 %define unmangled_version __VERSION__
 %define release 1

@@ -4,7 +4,7 @@ BUILDIR=$(CURDIR)/debian/python-catcher
 RPMTOPDIR=$(CURDIR)/build
 PROJECT=python-catcher
 DEBPROJECT=python-catcher
-VERSION=0.1.2
+VERSION=0.1.3
 PREFIX=/usr
 
 all:
