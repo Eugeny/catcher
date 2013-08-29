@@ -4,7 +4,7 @@ BUILDIR=$(CURDIR)/debian/python-catcher
 RPMTOPDIR=$(CURDIR)/build
 PROJECT=python-catcher
 DEBPROJECT=python-catcher
-VERSION=0.1.3
+VERSION=`python -c "from catcher import __version__; print __version__"`
 PREFIX=/usr
 
 all:
@@ -54,14 +54,10 @@ upload-tgz: tgz
 
 tgz:
 	rm dist/*.tar.gz || true
-	
-	cat setup.py.in | sed s/__VERSION__/$(VERSION)/g > setup.py
-	
 	$(PYTHON) setup.py sdist 
 
 
 clean:
 	$(PYTHON) setup.py clean
-	rm -rf $(DOCBUILDDIR)/*
 	rm -rf build/ debian/$(PROJECT)* debian/*stamp* debian/files MANIFEST *.egg-info
 	find . -name '*.pyc' -delete

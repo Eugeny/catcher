@@ -3,9 +3,11 @@
 from distutils.core import setup
 from setuptools import find_packages
 
+import catcher
+
 setup(
     name='python-catcher',
-    version='__VERSION__',
+    version=catcher.__version__,
     install_requires=[
         'requests', 'Mako',
     ],
