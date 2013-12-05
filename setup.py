@@ -3,7 +3,7 @@
 from distutils.core import setup
 from setuptools import find_packages
 
-from catcher._version import __version__
+execfile('catcher/_version.py')
 
 setup(
     name='python-catcher',
