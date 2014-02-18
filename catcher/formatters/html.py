@@ -154,7 +154,7 @@ _template = Template("""<!doctype html>
         </div>
     </body>
 </html>
-""")
+""", default_filters=['decode.utf8'], input_encoding='utf-8', output_encoding='utf-8')
 
 
 class HTMLFormatter:
