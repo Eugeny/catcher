@@ -66,7 +66,7 @@ _template = Template("""<!doctype html>
             <% return "[too deep]" %>
         % endif
         <% objid = id() %>
-        % if type(x) in [str, int, long, float, set] or x in [None]:
+        % if type(x) in [str, int, long, float, set] or x is None:
             <code>${repr(x) | h}</code>
         % elif type(x) == dict:
             <table class="table">
@@ -127,7 +127,7 @@ _template = Template("""<!doctype html>
                                         <span class="lineno">
                                             ${ frame.code[1] + index }
                                         </span>
-                                        <span class="code">${ line }</span>
+                                        <span class="code">${ line | h}</span>
                                     </div>
                                 % endfor
                             </div>
