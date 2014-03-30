@@ -18,7 +18,7 @@ Quick use::
         print url
 
 
-Example report: http://ajenti.org/catcher/view/10
+Example report: http://ajenti.org/catcher/view/7000
 
 Report overview:
 
