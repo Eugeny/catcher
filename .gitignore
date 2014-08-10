@@ -17,3 +17,4 @@ debian/*stamp*
 docs/build
 
 nosetests*
+*.whl
