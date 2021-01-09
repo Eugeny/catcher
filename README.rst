@@ -9,14 +9,13 @@ Quick use::
 
     try:
         launch_important_stuff()
-    except Exception, e:
+    except Exception as e:
         report = catcher.collect(e)
         html = catcher.formatters.HTMLFormatter().format(report, maxdepth=4)
         url = catcher.uploaders.AjentiOrgUploader().upload(html)
 
-        print 'Application has crashed. Please submit this link along with the bug report:'
-        print url
-
+        print('Application has crashed. Please submit this link along with the bug report:')
+        print(url)
 
 Example report: http://ajenti.org/catcher/view/7000
 
