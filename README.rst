@@ -1,7 +1,9 @@
 Catcher - Beautiful tracebacks
 ==============================
 
-**python-catcher** module generates rich HTML tracebacks (including source code and locals), submits it to the web and generates a permalink.
+**python-catcher** module generates highly informative crash reports (including source code and locals) in two possible forms:
+- geenrates a text file report, as you can save it where it is needed to;
+- generates HTML-page-like report, submits it to the web and generates a permalink.
 
 Quick use::
 
