@@ -2,32 +2,121 @@ from datetime import datetime
 
 
 class TextFormatter:
-    def __format_frame(self, frame):
+    maxDepth = 5
+    framesQty = 0
+    framesWithoutLocals = []
+    localsFormatted = False
+
+
+    @staticmethod
+    def isValidToRepresent(varname: str, object):
+        if not (varname in ('self', 'e') or
+                varname.startswith('__') or
+                'method' in varname):
+            return True
+
+
+    @staticmethod
+    def extractAttrs(object):
+        r = {}
+        for k in dir(object):
+            if not k.startswith('__') and not (k in ('self', 'e')) and hasattr(object, k):
+                v = getattr(object, k)
+                if not type(v).__name__.endswith('method'):
+                    r[k] = v
+        return r
+
+
+    def formatTracebackFrame(self, frame):
+        if self.localsFormatted:
+            self.framesQty += 1
+            self.localsFormatted = False
+
         lines, current_line = frame.code
-        code = ''.join(
-            '    ' +
-            ('>>' if lines.index(line) == frame.line - current_line else '  ') +
-            ' ' + line
+        code = '‖   |'
+        code += '‖   |'.join((('>>> ' if lines.index(line) == frame.line - current_line else '    ') + line)
             for line in lines
         )
 
-        return """
-    %(file)s:%(line)s
-%(code)s
-        """ % {
+        return '''@ %(file)s, line %(line)s (frame #%(frameNo)s):
+%(code)s‖
+''' % {
             'file': frame.file,
             'line': frame.line,
+            'frameNo': self.framesQty,
             'code': code,
         }
 
+
+    def formatLocals(self, frame):
+        i = int()
+        localsText = f'@ frame #{self.framesQty}:\n'
+
+        for varname, value in frame.locals.items():
+            if self.isValidToRepresent(varname, value):
+                if type(value) == dict:
+                    localsText += f'''‖   |    {varname} ({type(value).__name__}):\n‖   |   |'''
+                    for k, v in value.items():
+                        if self.isValidToRepresent(k, v): localsText += f'''"{k}": {v}\n‖   |   |'''
+                    localsText += '‖   |\n'
+                    i += 1
+
+
+                elif hasattr(value, '__dict__') and ('class' in str(type(value))):
+                    localsText += f'''‖   |   {varname} (object of type {str(type(value))[7:-1]}):\n'''
+
+                    d = self.extractAttrs(value)
+                    for k, v in d.items(): 
+                        localsText += f'''‖   |   |   attribute '{k}' ({type(v).__name__}): {v}\n'''
+                    localsText += '‖   |\n'
+                    i += 1
+
+
+                else:
+                    localsText += f'''‖   |   {varname} ({type(value).__name__}): {repr(value)}\n'''
+                    i += 1
+
+
+        self.localsFormatted = True
+        if i: return localsText
+        else: return ''
+
+
     def format(self, report):
-        traceback = '\n'.join(self.__format_frame(frame) for frame in report.traceback)
-        return """
-Error report at %(timestamp)s
+        tracebackAsList, localsAsList = [], []
+        emptyLocalsMessage = ''
+
+        for frame in report.traceback:
+            tracebackAsList.append(self.formatTracebackFrame(frame))
+
+            localsForFrame = self.formatLocals(frame)
+            if localsForFrame: localsAsList.append(localsForFrame)
+            else: self.framesWithoutLocals.append(frame)
+
+        if self.framesWithoutLocals:
+            messagePart = ''
+            for frameNo in range(len(self.framesWithoutLocals)):
+                messagePart += f'{frameNo}, '
+            messagePart = messagePart[:-2]
+            emptyLocalsMessage = f'\n‖   Frames {messagePart} don`t have locals'
+
+        return '''Error report
+~~~~~~~~~~~~
+Report generated using Python Catcher by Eugene Pankow, v0.1.5
+
+Exception has been ocurred at %(timestamp)s and indices the following:
+‖   %(exceptionName)s: %(exceptionDesc)s
 
 Traceback:
-%(traceback)s
-        """ % {
+‖   %(traceback)s
+
+Locals:%(emptyLocals)s
+‖   %(locals)s
+        ''' % {
             'timestamp': datetime.fromtimestamp(int(report.timestamp)),
-            'traceback': traceback,
+            'traceback': '‖   '.join(tracebackAsList),
+            'locals': '‖   '.join(localsAsList),
+            'emptyLocals': emptyLocalsMessage,
+            'exceptionName': type(report.exception).__name__,
+            'exceptionDesc': str(report.exception)
         }
