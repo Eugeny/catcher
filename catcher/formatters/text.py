@@ -108,7 +108,7 @@ class TextFormatter:
 
         return '''Error report
 ~~~~~~~~~~~~
-Report generated using Python Catcher by Eugene Pankow, v0.1.5
+Report generated using python-catcher
 
 Exception has been ocurred at %(timestamp)s and indices the following:
 ‖   %(exceptionName)s: %(exceptionDesc)s
