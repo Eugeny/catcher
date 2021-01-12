@@ -3,7 +3,7 @@ Catcher - Beautiful tracebacks
 
 **python-catcher** module generates highly informative crash reports (including source code and locals) in two possible forms:
 
-  * geenrates a text file report, as you can save it where it is needed to;
+  * generates a text file report, which you can save it where it is needed to;
   * generates HTML-page-like report, submits it to the web and generates a permalink.
 
 Quick use for HTML-page-like report::
@@ -32,13 +32,11 @@ Quick use for text file report::
         with open(f'crash_{report.timestamp}.txt', 'w') as f: f.write(text)
 
 
-Example HTML-page-like report: http://ajenti.org/catcher/view/7000
-
 Example text file report::
 
     Error report
     ~~~~~~~~~~~~
-    Report generated using Python Catcher by Eugene Pankow, v0.1.5
+    Report generated using python-catcher
     
     Exception has been ocurred at 2021-01-12 20:09:53 and indices the following:
     ‖   TypeError: unsupported operand type(s) for /: 'str' and 'str'
