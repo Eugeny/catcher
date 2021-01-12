@@ -10,21 +10,27 @@ class TextFormatter:
 
     @staticmethod
     def isValidToRepresent(varname: str, object):
-        if not (varname in ('self', 'e') or
-                varname.startswith('__') or
-                'method' in varname):
+        if not (varname  in ('self', 'e')     or
+                varname.startswith('__')      or
+                'method' in varname           or
+                'function' in varname         or
+                'module' in str(type(object)) or
+                'Report' in str(type(object))):
             return True
 
 
     @staticmethod
     def extractAttrs(object):
-        r = {}
+        result = {}
         for k in dir(object):
-            if not k.startswith('__') and not (k in ('self', 'e')) and hasattr(object, k):
-                v = getattr(object, k)
-                if not type(v).__name__.endswith('method'):
-                    r[k] = v
-        return r
+            if (hasattr(object, k)
+                and not k.startswith('__')
+                and not k.endswith('__')
+                and not hasattr(k, 'hidden')
+                and not type(getattr(object, k)).__name__.endswith('method')):
+                    result[k] = getattr(object, k)
+
+        return result
 
 
     def formatTracebackFrame(self, frame):
