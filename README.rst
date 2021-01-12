@@ -2,10 +2,11 @@ Catcher - Beautiful tracebacks
 ==============================
 
 **python-catcher** module generates highly informative crash reports (including source code and locals) in two possible forms:
-- geenrates a text file report, as you can save it where it is needed to;
-- generates HTML-page-like report, submits it to the web and generates a permalink.
 
-Quick use::
+  * geenrates a text file report, as you can save it where it is needed to;
+  * generates HTML-page-like report, submits it to the web and generates a permalink.
+
+Quick use for HTML-page-like report::
 
     import catcher
 
@@ -19,7 +20,47 @@ Quick use::
         print('Application has crashed. Please submit this link along with the bug report:')
         print(url)
 
-Example report: http://ajenti.org/catcher/view/7000
+Quick use for text file report::
+
+    import catcher
+
+    try:
+        print('you cannot' / 'divide this')
+    except Exception as e:
+        report = catcher.collect(e)
+        text = catcher.formatters.TextFormatter().format(report)
+        with open(f'crash_{report.timestamp}.txt', 'w') as f: f.write(text)
+
+
+Example HTML-page-like report: http://ajenti.org/catcher/view/7000
+
+Example text file report::
+
+    Error report
+    ~~~~~~~~~~~~
+    Report generated using Python Catcher by Eugene Pankow, v0.1.5
+    
+    Exception has been ocurred at 2021-01-12 20:09:53 and indices the following:
+    ‖   TypeError: unsupported operand type(s) for /: 'str' and 'str'
+    
+    Traceback:
+    ‖   @ mytest.py, line 6 (frame #0):
+    ‖   |    import catcher
+    ‖   |    
+    ‖   |    try:
+    ‖   |        print('you cannot' / 'divide this')
+    ‖   |    except Exception as e:
+    ‖   |        report = catcher.collect(e)
+    ‖   |>>>     text = catcher.formatters.TextFormatter().format(report)
+    ‖   |        with open(f'crash_{report.timestamp}.txt', 'w', encoding = 'utf-8') as f: f.write(text)
+    ‖
+    
+    
+    Locals:
+    ‖   Frames 0 don`t have locals
+    ‖   
+        
+
 
 Report overview:
 
